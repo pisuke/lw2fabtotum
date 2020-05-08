@@ -14,9 +14,29 @@ __maintainer__ = "Francesco Anselmo"
 __email__ = "francesco.anselmo@gmail.com"
 __status__ = "Dev"
 
+FABTOTUM_LASERCUTTING_HEADER = ''';FABtotum laser cutting: {}
+G4 S1 ;1 millisecond pause to buffer the bep bep
+M728 ;FAB bep bep
+M793 S4; enable laser head
+G90 ; absolute mode
+G4 S1 ;1 second pause to reach the printer (run fast)
+G1 F10000 ;Set initial travel speed
+M61 S255 ;Finish moves and set laser power to maximum
+'''
+
+
 def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
     if exists(INPUT_FILENAME):
-        pass
+        if not exists(OUTPUT_FILENAME):
+            infile = open(INPUT_FILENAME, 'r')
+            outfile = open(OUTPUT_FILENAME, 'w')
+            output_text=FABTOTUM_LASERCUTTING_HEADER.format(INPUT_FILENAME)
+            print(output_text)
+            outfile.write(output_text)
+            outfile.close()
+            infile.close()
+        else:
+            print('the {} file already exists, please delete it or provide a different filename'.format(OUTPUT_FILENAME))
     else:
         print("please provide an input LaserWeb gcode filename.")
 

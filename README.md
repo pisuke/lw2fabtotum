@@ -20,3 +20,8 @@ $ python3 lw2fabtotum.py -i input_filename.gcode -o output_filename.gcode
 ```
 
 4. Load the file into your FABtotum, put your sheet material on the tray and cut!
+
+## Reference
+
+* [G codes for the FABtotum](https://github.com/Opentotum/Opentotum/wiki/G-Code)
+* [FABlin G codes including the laser ones](http://fabtotum.github.io/FABlin/#File:Marlin_main.cpp:M61)
