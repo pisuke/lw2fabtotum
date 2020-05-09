@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import validators
 from pyfiglet import Figlet
 from os.path import exists
+from sys import exit
 
 __author__ = "Francesco Anselmo"
 __copyright__ = "Copyright 2019, Francesco Anselmo"
@@ -26,14 +28,17 @@ G1 F10000 ;set initial travel speed
 FABTOTUM_LASERCUTTING_FOOTER = '''M62 ;Turn off laser
 '''
 
-def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
+def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, SPEED, POWER, VERBOSE, DEBUG):
     """convert the LaserWeb G Code file to a FABtotum G Code file.
 
     Arguments:
-        INPUT_FILENAME {[string]} -- [description]
-        OUTPUT_FILENAME {[string]} -- [description]
-        VERBOSE {[boolean]} -- [description]
-        DEBUG {[boolean]} -- [description]
+        INPUT_FILENAME {[string]} -- input gcode file name from LaserWeb
+        OUTPUT_FILENAME {[string]} -- output gcode file name for the FABtotum
+        SPEED {[integer]} -- speed rate for laser head movement, it must be a number between 1 and 20000
+        POWER {[integer]} -- laser head power, it must be a number between 1 and 255
+        VERBOSE {[boolean]} -- increase the verbosity level
+        DEBUG {[boolean]} -- print debug information
+
     """
     if exists(INPUT_FILENAME):
         if not exists(OUTPUT_FILENAME):
@@ -41,12 +46,16 @@ def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
             outfile = open(OUTPUT_FILENAME, 'w')
             output_text=FABTOTUM_LASERCUTTING_HEADER.format(INPUT_FILENAME)
             for line in infile.readlines():
+                # disable laser head power for non cutting motion
                 if line[0:2]=="G0":
                     output_text+="M62 ;Turn off laser\n"
                     output_text+=line
-                    output_text+="M61 S255\n"
+                    output_text+="M61 S{}\n".format(POWER)
                 else:
                     output_text+=line
+                # replace laser head speed with user selected one
+
+
             output_text+=(FABTOTUM_LASERCUTTING_FOOTER)
             if DEBUG:
                 print(output_text)
@@ -76,15 +85,20 @@ def main():
     parser.add_argument("-d", "--debug", action="store_true", default=False, help="print debug information")
     parser.add_argument("-i","--input", default="input.gcode", help="input gcode file name from LaserWeb")
     parser.add_argument("-o","--output", default="output.gcode", help="output gcode file name for the FABtotum")
+    parser.add_argument("-s","--speed", default="500", help="speed rate for laser head movement, it must be a number between 1 and 20000")
+    parser.add_argument("-p","--power", default="255", help="laser head power, it must be a number between 1 and 255")
 
     args = parser.parse_args()
 
-    VERBOSE = args.verbose
-    DEBUG = args.debug
-    INPUT_FILENAME = args.input
-    OUTPUT_FILENAME = args.output
+    if not validators.between (int(args.speed), min=1, max=20000):
+        print("laser head speed must be between 1 and 20000")
+        exit(1)
 
-    lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG)
+    if not validators.between (int(args.power), min=1, max=255):
+        print("laser head power must be between 1 and 255")
+        exit(1)
+
+    lw2fabtotum(args.input, args.output, args.speed, args.power, args.verbose, args.debug)
 
 if __name__ == "__main__":
     main()

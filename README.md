@@ -31,7 +31,8 @@ $ python3 lw2fabtotum.py -i input_filename.gcode -o output_filename.gcode
 |_| \_/\_/ |_____|_|/_/   \_\____/ \__\___/ \__|\__,_|_| |_| |_|
 
 
-usage: lw2fabtotum.py [-h] [-v] [-d] [-i INPUT] [-o OUTPUT]
+usage: lw2fabtotum.py [-h] [-v] [-d] [-i INPUT] [-o OUTPUT] [-s SPEED]
+                     [-p POWER]
 
 optional arguments:
  -h, --help            show this help message and exit
@@ -41,6 +42,12 @@ optional arguments:
                        input gcode file name from LaserWeb
  -o OUTPUT, --output OUTPUT
                        output gcode file name for the FABtotum
+ -s SPEED, --speed SPEED
+                       speed rate for laser head movement, it must be a
+                       number between 1 and 20000
+ -p POWER, --power POWER
+                       laser head power, it must be a number between 1 and
+                       255
 ```
 
 ## Reference
