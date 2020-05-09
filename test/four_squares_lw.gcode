@@ -9,13 +9,6 @@ G90         ; Absolute positioning
 ; Cut rate:     1000 mm/min
 ;
 
-; Macro [hookOperationStart]: LASER OFF
-M5
-
-; Macro [hookPassStart]: LASER OFF
-M5
-
-
 ; Pass 0
 
 ; Pass 0 Path 0
@@ -47,10 +40,3 @@ G1 X1.00 Y1.00
 G1 X51.00 Y1.00
 G1 X51.00 Y51.00
 G1 X51.00 Y51.00
-
-; Macro [hookPassEnd]: LASER OFF
-M5
-
-; Macro [hookOperationEnd]: LASER OFF
-M5
-M5          ; Switch tool offEnd
