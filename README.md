@@ -1,5 +1,5 @@
 # lw2fabtotum
-LaserWeb to FABTotum gcode conversion for laser cutting.
+[LaserWeb](https://github.com/LaserWeb/LaserWeb4/wiki) to [FABTotum](https://github.com/FABtotum) gcode conversion for laser cutting.
 
 ## Installation
 
@@ -24,7 +24,7 @@ $ python3 lw2fabtotum.py -i input_filename.gcode -o output_filename.gcode
 ## Command line options
 
 ```
-_          ____  _____ _    ____  _        _
+ _          ____  _____ _    ____  _        _
 | |_      _|___ \|  ___/ \  | __ )| |_ ___ | |_ _   _ _ __ ___
 | \ \ /\ / / __) | |_ / _ \ |  _ \| __/ _ \| __| | | | '_ ` _ \
 | |\ V  V / / __/|  _/ ___ \| |_) | || (_) | |_| |_| | | | | | |
