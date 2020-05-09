@@ -5,7 +5,6 @@ M793 S4 ;enable laser head
 G90 ;use absolute coordinates
 G4 S1 ;1 second pause to reach the printer (run fast)
 G1 F10000 ;set initial travel speed
-M61 S255 ;finish moves and set laser power to maximum
 G21         ; Set units to mm
 G90         ; Absolute positioning
 
@@ -70,3 +69,4 @@ M5
 ; Macro [hookOperationEnd]: LASER OFF
 M5
 M5          ; Switch tool offEnd
+M62 ;Turn off laser

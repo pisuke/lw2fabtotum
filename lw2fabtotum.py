@@ -21,7 +21,6 @@ M793 S4 ;enable laser head
 G90 ;use absolute coordinates
 G4 S1 ;1 second pause to reach the printer (run fast)
 G1 F10000 ;set initial travel speed
-M61 S255 ;finish moves and set laser power to maximum
 '''
 
 FABTOTUM_LASERCUTTING_FOOTER = '''M62 ;Turn off laser
@@ -35,7 +34,7 @@ def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
         OUTPUT_FILENAME {[string]} -- [description]
         VERBOSE {[boolean]} -- [description]
         DEBUG {[boolean]} -- [description]
-    """    
+    """
     if exists(INPUT_FILENAME):
         if not exists(OUTPUT_FILENAME):
             infile = open(INPUT_FILENAME, 'r')
@@ -48,11 +47,13 @@ def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
                     output_text+="M61 S255\n"
                 else:
                     output_text+=line
+            output_text+=(FABTOTUM_LASERCUTTING_FOOTER)
             if DEBUG:
                 print(output_text)
             outfile.write(output_text)
             outfile.close()
             infile.close()
+            print("conversion completed to output file {}".format(OUTPUT_FILENAME))
         else:
             print('the {} file already exists, please delete it or provide a different filename'.format(OUTPUT_FILENAME))
     else:
@@ -61,7 +62,7 @@ def lw2fabtotum(INPUT_FILENAME, OUTPUT_FILENAME, VERBOSE, DEBUG):
 
 def show_title():
     """show the program title
-    """    
+    """
     f1 = Figlet(font='standard')
     print(f1.renderText('lw2FABtotum'))
 
